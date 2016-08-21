@@ -31,9 +31,10 @@ export default class User extends Component {
     myRecipes: [],
     completed: false
   }
+
   constructor(props) {
     super(props)
-    if(localStorage.getItem('token').length < 5 || !localStorage.getItem('username')) {
+    if (localStorage.getItem('token').length < 5 || !localStorage.getItem('username')) {
       props.store.index.changeIndex(-1)
       browserHistory.push('/login')
     }
@@ -47,9 +48,9 @@ export default class User extends Component {
       success: (err, res) => {
         let star = [], my = []
         res.body.content.map((item) => {
-          if(item.type === 'star') {
+          if (item.type === 'star') {
             star.push(item)
-          } else if(item.type === 'create') {
+          } else if (item.type === 'create') {
             my.push(item)
           }
         })
@@ -61,6 +62,7 @@ export default class User extends Component {
       }
     })
   }
+
   handleTouchTap(event) {
     event.preventDefault()
     this.setState({
@@ -68,20 +70,24 @@ export default class User extends Component {
       anchorEl: event.currentTarget,
     })
   }
+
   handleRequestClose() {
     this.setState({
       popOpen: false,
     })
   }
+
   handleLogout() {
     this.props.store.user.logout()
     this.props.store.index.changeIndex(-1)
     browserHistory.push('/login')
   }
+
   addToCollection() {
     this.props.store.index.changeIndex(-1)
     browserHistory.push('/new')
   }
+
   render() {
     let {store} = this.props
     const username = localStorage.getItem('username')
@@ -95,7 +101,7 @@ export default class User extends Component {
           />
         </List>
         <Tabs>
-          <Tab label="收藏的食譜"  >
+          <Tab label="收藏的食譜">
             <div style={style.tabs}>
               {
                 this.state.starRecipes.length === 0 ?
@@ -103,7 +109,7 @@ export default class User extends Component {
                     <h2 style={style.headline}>未收藏任何食譜</h2>
                     :
                     <h2 style={style.headline}>Loading ...</h2>
-                    :
+                  :
                   <List>
                     {this.state.starRecipes.map((item, i) => {
                       return (
@@ -118,14 +124,14 @@ export default class User extends Component {
                             browserHistory.push('/detail')
                           }}
                           key={"star" + i}
-                          primaryText={item.title} />
+                          primaryText={item.title}/>
                       )
                     })}
                   </List>
               }
             </div>
           </Tab>
-          <Tab label="我的食譜" >
+          <Tab label="我的食譜">
             <div style={style.tabs}>
               {
                 this.state.myRecipes.length === 0 ?
@@ -148,7 +154,7 @@ export default class User extends Component {
                             browserHistory.push('/detail')
                           }}
                           key={"my" + i}
-                          primaryText={item.title} />
+                          primaryText={item.title}/>
                       )
                     })}
                   </List>
@@ -156,10 +162,10 @@ export default class User extends Component {
             </div>
           </Tab>
           {/*<Tab*/}
-            {/*label="想吃的食物">*/}
-            {/*<div style={style.tabs}>*/}
-              {/*<h2 style={style.headline}>敬請期待 ...</h2>*/}
-            {/*</div>*/}
+          {/*label="想吃的食物">*/}
+          {/*<div style={style.tabs}>*/}
+          {/*<h2 style={style.headline}>敬請期待 ...</h2>*/}
+          {/*</div>*/}
           {/*</Tab>*/}
         </Tabs>
         <Popover
@@ -170,8 +176,8 @@ export default class User extends Component {
           onRequestClose={::this.handleRequestClose}
         >
           <Menu>
-            <MenuItem primaryText="添加我的食譜" onClick={::this.addToCollection} />
-            <MenuItem primaryText="登出" onClick={::this.handleLogout} />
+            <MenuItem primaryText="添加我的食譜" onClick={::this.addToCollection}/>
+            <MenuItem primaryText="登出" onClick={::this.handleLogout}/>
           </Menu>
         </Popover>
       </div>

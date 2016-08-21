@@ -19,7 +19,7 @@ const muiTheme = getMuiTheme({
     backgroundColor: deepOrange900,
     selectedColor: grey200,
   }
-});
+})
 
 export default class App extends Component {
 

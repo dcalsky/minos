@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import { List, ListItem} from 'material-ui/List';
-import { Card, CardHeader, CardText} from 'material-ui/Card'
-import { RaisedButton, FlatButton, Dialog, TextField, Snackbar} from 'material-ui'
-import { browserHistory } from 'react-router'
+import {List, ListItem} from 'material-ui/List'
+import {Card, CardHeader, CardText} from 'material-ui/Card'
+import {RaisedButton, FlatButton, Dialog, TextField, Snackbar} from 'material-ui'
+import {browserHistory} from 'react-router'
 import {orange500} from 'material-ui/styles/colors'
 import ActionGrade from 'material-ui/svg-icons/action/grade'
 import request from '../../utils/auth.js'
@@ -15,8 +15,7 @@ const style = {
     width: '100%',
     padding: '15px 0 86px 0'
   }
-
-};
+}
 
 export default class Detail extends Component {
   state = {
@@ -24,36 +23,44 @@ export default class Detail extends Component {
     modalOpen: false,
     foodName: null
   }
+
   constructor(props) {
     super(props)
-    if(!props.store.recipe.title) {
+    if (!props.store.recipe.title) {
       props.store.index.changeIndex(0)
       browserHistory.push('/home')
     }
   }
+
   componentDidMount() {
 
   }
+
   openModal() {
-    this.setState({modalOpen: true});
+    this.setState({modalOpen: true})
   }
+
   closeModal() {
-    this.setState({modalOpen: false});
+    this.setState({modalOpen: false})
   }
+
   handleInfoSubmit() {
     this.props.store.index.changeIndex(0)
     browserHistory.push('/home')
   }
+
   handleFoodNameChange(e) {
     this.setState({
       foodName: e.target.value
     })
   }
+
   closeSnackBar() {
     this.setState({
       snackBarOpen: false
     })
   }
+
   addToStar() {
     const {title, ingredients, steps} = this.props.store.recipe
     request({
@@ -67,7 +74,7 @@ export default class Detail extends Component {
         type: 'star'
       },
       success: (err, res) => {
-        if(res.body.message === 'ok') {
+        if (res.body.message === 'ok') {
           this.setState({
             snackBarOpen: true
           })
@@ -75,6 +82,7 @@ export default class Detail extends Component {
       }
     })
   }
+
   render() {
     let {store} = this.props
     const actions = [
@@ -93,10 +101,10 @@ export default class Detail extends Component {
     const _steps = JSON.parse(steps)
     const _ingredients = JSON.parse(ingredients)
     return (
-      <div  style={style.paper}>
-          <List>
-            <ListItem  primaryText={"食物名稱: " + title} />
-          </List>
+      <div style={style.paper}>
+        <List>
+          <ListItem primaryText={"食物名稱: " + title}/>
+        </List>
 
         <Card>`
           <CardHeader
@@ -131,7 +139,8 @@ export default class Detail extends Component {
             label="收藏"
             onClick={::this.addToStar}
           />
-          <RaisedButton style={{position: 'absolute', right: 0}} secondary={true} label="存在搜索误差?" onTouchTap={::this.openModal}/>
+          <RaisedButton style={{position: 'absolute', right: 0}} secondary={true} label="存在搜索误差?"
+                        onTouchTap={::this.openModal}/>
           <Dialog
             title="指出其中存在的錯誤,以便我們為您提供更舒適的Smart Life!"
             actions={actions}

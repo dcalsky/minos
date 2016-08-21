@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import FontIcon from 'material-ui/FontIcon'
 import {deepOrange900, grey200} from 'material-ui/styles/colors'
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation'
-import HomeIcon from 'material-ui/svg-icons/action/home';
+import HomeIcon from 'material-ui/svg-icons/action/home'
 import BookIcon from 'material-ui/svg-icons/action/book'
 import PersonIcon from 'material-ui/svg-icons/social/person'
 import { browserHistory } from 'react-router'
@@ -64,8 +64,8 @@ class BottomNav extends Component {
             }}
           />
         </BottomNavigation>
-    );
+    )
   }
 }
 
-export default BottomNav;
+export default BottomNav

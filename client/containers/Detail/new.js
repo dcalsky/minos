@@ -11,8 +11,7 @@ const style = {
     width: '100%',
     padding: '15px 5px 86px 5px'
   }
-
-};
+}
 
 export default class Detail extends Component {
   state = {
@@ -24,11 +23,12 @@ export default class Detail extends Component {
 
   constructor(props) {
     super(props)
-    if(localStorage.getItem('token').length < 5 || !localStorage.getItem('username')) {
+    if (localStorage.getItem('token').length < 5 || !localStorage.getItem('username')) {
       props.store.index.changeIndex(-1)
       browserHistory.push('/login')
     }
   }
+
   closeSnackBar() {
     this.setState({
       snackBarOpen: false
@@ -36,21 +36,25 @@ export default class Detail extends Component {
     this.props.store.index.changeIndex(2)
     browserHistory.push('/user')
   }
+
   handleTitleChange(e) {
     this.setState({
       title: e.target.value
     })
   }
+
   handleStepsChange(e) {
     this.setState({
       steps: e.target.value
     })
   }
+
   handleIngredientsChange(e) {
     this.setState({
       ingredients: e.target.value
     })
   }
+
   addToCollection() {
     const ingredients = JSON.stringify([{name: this.state.ingredients}])
     const steps = JSON.stringify([{step: this.state.steps}])
@@ -68,7 +72,7 @@ export default class Detail extends Component {
         if (err) {
           throw err
         } else {
-          if(res.body.message === 'ok') {
+          if (res.body.message === 'ok') {
             this.setState({
               snackBarOpen: true
             })
@@ -77,11 +81,13 @@ export default class Detail extends Component {
       }
     })
   }
+
   render() {
     let {store} = this.props
     return (
       <Paper zDepth={2} style={style.paper}>
-        <TextField hintText="標題" floatingLabelText="Title" style={style} underlineShow={false} onChange={::this.handleTitleChange} />
+        <TextField hintText="標題" floatingLabelText="Title" style={style} underlineShow={false}
+                   onChange={::this.handleTitleChange}/>
         <Divider />
         <TextField
           hintText="所需配料"
