@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {RaisedButton, CircularProgress} from 'material-ui'
-import ActionAndroid from 'material-ui/svg-icons/file/cloud-upload';
+import ActionAndroid from 'material-ui/svg-icons/file/cloud-upload'
 import Picture from 'material-ui/svg-icons/image/add-a-photo'
 import defaultPhoto from './default.jpg'
 import { browserHistory } from 'react-router'
@@ -62,16 +62,16 @@ export default class Home extends Component {
     let self = this
     this.setState({uploading: true})
     files.map(function (file) {
-      let reader  = new FileReader();
+      let reader  = new FileReader()
 
       reader.addEventListener("load", function () { // FileReader来读取File类型
         self.setState({
           photoURL: file.preview
         })
-      }, false);
+      }, false)
 
       if (file) {
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(file)
       }
 
       file.onprogress = function(e) {
@@ -82,26 +82,33 @@ export default class Home extends Component {
             method: 'GET',
             url: URL + '/upload/analyze' + '?id=' + result._id,
             success: (err, res) => {
-              const {title, _id, ingredients, instructions} = res.body
-              if(_id) {
-                self.props.store.recipe.changeRecipe({
-                  title: title,
-                  ingredients: JSON.stringify(ingredients),
-                  steps: JSON.stringify(instructions)
-                })
+              if(err || res.body.err) {
                 self.setState({
                   uploading: false,
                   uploadCompleted: true
                 })
-                self.props.store.index.changeIndex(1)
-                browserHistory.push('detail')
+              } else {
+                const {title, _id, ingredients, instructions} = res.body
+                if(_id) {
+                  self.props.store.recipe.changeRecipe({
+                    title: title,
+                    ingredients: JSON.stringify(ingredients),
+                    steps: JSON.stringify(instructions)
+                  })
+                  self.setState({
+                    uploading: false,
+                    uploadCompleted: true
+                  })
+                  self.props.store.index.changeIndex(1)
+                  browserHistory.push('detail')
+                }
               }
             }
           })
 
         }
-      };
-    });
+      }
+    })
   }
   render() {
     return(
@@ -118,23 +125,12 @@ export default class Home extends Component {
           <img style={style.photo} src={this.state.photoURL || defaultPhoto} alt=""/>
         </div>
         <Qiniu onDrop={()=>{}} style={style.qiniu} token={this.state.token} onUpload={::this.onUpload}>
-          {
-            this.state.uploadCompleted ?
             <RaisedButton
-              label="查看結果"
+              label="拍張照片"
               labelPosition="after"
-              primary={true}
               fullWidth={true}
-              icon={<ActionAndroid />}
+              icon={<Picture />}
             />
-            :
-            <RaisedButton
-            label="拍張照片"
-            labelPosition="after"
-            fullWidth={true}
-            icon={<Picture />}
-            />
-          }
         </Qiniu>
       </div>
     )
