@@ -32,8 +32,7 @@ export default class Detail extends Component {
     }
   }
   componentDidMount() {
-    const id = this.props.store.recipe.id
-    // todo fetch()
+
   }
   openModal() {
     this.setState({modalOpen: true});
@@ -57,16 +56,14 @@ export default class Detail extends Component {
   }
   addToStar() {
     const {title, ingredients, steps} = this.props.store.recipe
-    const _ingredients = JSON.stringify(ingredients)
-    const _steps = JSON.stringify(steps)
     request({
       method: 'POST',
       url: URL + '/recipe/add',
       auth: `Bearer ${localStorage.getItem('token')}`,
       body: {
         title: title,
-        ingredients: _ingredients,
-        steps: _steps,
+        ingredients: ingredients,
+        steps: steps,
         type: 'star'
       },
       success: (err, res) => {
