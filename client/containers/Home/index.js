@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
-import {RaisedButton, CircularProgress} from 'material-ui'
-import ActionAndroid from 'material-ui/svg-icons/file/cloud-upload'
+import {RaisedButton, CircularProgress, Snackbar} from 'material-ui'
 import Picture from 'material-ui/svg-icons/image/add-a-photo'
 import defaultPhoto from './default.jpg'
 import {browserHistory} from 'react-router'
@@ -41,7 +40,8 @@ export default class Home extends Component {
     token: null,
     uploadCompleted: false,
     uploading: false,
-    photoURL: null
+    photoURL: null,
+    snackBarOpen: false
   }
 
   constructor(props) {
@@ -60,7 +60,11 @@ export default class Home extends Component {
       }
     })
   }
-
+  closeSnackBar() {
+    this.setState({
+      snackBarOpen: false
+    })
+  }
   onUpload(files) {
     let self = this
     this.setState({uploading: true})
@@ -88,7 +92,8 @@ export default class Home extends Component {
               if (err || res.body.err) {
                 self.setState({
                   uploading: false,
-                  uploadCompleted: true
+                  uploadCompleted: true,
+                  snackBarOpen: true
                 })
               } else {
                 const {title, _id, ingredients, instructions} = res.body
@@ -137,6 +142,12 @@ export default class Home extends Component {
             icon={<Picture />}
           />
         </Qiniu>
+        <Snackbar
+          open={this.state.snackBarOpen}
+          message="Please take a picture of food!"
+          autoHideDuration={4000}
+          onRequestClose={::this.closeSnackBar}
+        />
       </div>
     )
   }
