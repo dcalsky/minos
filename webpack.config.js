@@ -12,6 +12,7 @@ module.exports = {
       'react',
       'react-dom',
       'react-router',
+      'material-ui'
     ]
   },
   output: {
@@ -35,17 +36,20 @@ module.exports = {
         test: /\.css$/,
         exclude: /client/,
         loader: 'style!css'
-      }, {
+      }, /*{
         test: /\.styl$/,
         loader: 'style!css!stylus'
-      }, {
+      },*/ {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         loaders: [
           'react-hot',
           'babel-loader'
         ]
-      },
+      }, {
+        test: /\.(jpg|png)$/,
+        loader: "url-loader"
+      }
     ],
   },
   resolve: {
@@ -65,7 +69,13 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     new webpack.DefinePlugin({
       'process.env': { NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development') }
-    })
+    }),
+    new webpack.optimize.DedupePlugin(),
+    // new webpack.optimize.UglifyJsPlugin({
+    //   compress: {
+    //     warnings: false
+    //   }
+    // })
   ],
   devServer: {
     contentBase: './client',
